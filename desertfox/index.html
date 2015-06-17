@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Desertfox</title>
+    <link rel="stylesheet" type="text/css" href="static/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/components/gridster/dist/jquery.gridster.min.css">
+</head>
+<body>
+
+<div class="header-container">
+    <header>
+        <div class="container">
+            <a href="" class="logo"></a>
+
+            <div class="search">
+                <input id="search-text" type="text" class="search" placeholder="Search for photos on photodune.net"/>
+                <button id="search-button"><i class="fa fa-search"></i></button>
+                <img class="loading" src="static/images/loading4.gif">
+            </div>
+
+            <div class="toolbar">
+                <button class="button button-switch">Edit text</button>
+                <button class="button button-cancel button-light">Cancel</button>
+                <button class="button button-help button-violet">Help & About</button>
+            </div>
+        </div>
+    </header>
+    <section id="search-results" class="search-results">
+
+        <div class="container">
+            <h2 class="photos-found"></h2>
+            <i class="close fa fa-remove"></i>
+        </div>
+
+        <div class="result" style="overflow-y: visible !important;">
+            <ul>
+            </ul>
+        </div>
+
+        <div class="scrollbar">
+            <div class="handle">
+                <div class="mousearea"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="search-results-not-found" class="search-results not-found">
+        <div class="container">
+            <p>No matching photos found. Please modify your search criteria and try searching again.</p>
+            <button class="close"><i class="fa fa-remove"></i></button>
+        </div>
+    </section>
+
+</div>
+
+<main class="editor">
+
+    <section class="help">
+        <div class="container">
+            <div class="content">
+                <div class="help-step help-step-1">
+                    <h1>Hello</h1>
+                    <p>
+                        Not done yet
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mode-preview">
+        <div class="container">
+            <div class="content">
+
+            </div>
+        </div>
+    </section>
+
+    <section class="mode-edit">
+        <div class="container">
+            <div class="page">
+                <pre id="editor"></pre>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script type="text/javascript" src="static/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="static/components/jquery-easing-original/jquery.easing.min.js"></script>
+<script type="text/javascript" src="static/components/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="static/components/sly/dist/sly.min.js"></script>
+<script type="text/javascript" src="static/components/marked/marked.min.js"></script>
+<script type="text/javascript" src="static/components/ace-builds/src-min/ace.js"></script>
+<script type="text/javascript" src="static/components/ace-builds/src-min/mode-markdown.js"></script>
+<script type="text/javascript" src="static/components/ace-builds/src-min/theme-monokai.js"></script>
+<script type="text/javascript" src="static/components/gridster/dist/jquery.gridster.with-extras.min.js"></script>
+<script type="text/javascript" src="static/components/js-base64/base64.min.js"></script>
+<script type="text/javascript" src="static/javascripts/app.js"></script>
+
+</body>
+</html>
