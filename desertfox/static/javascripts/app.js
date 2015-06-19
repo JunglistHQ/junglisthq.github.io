@@ -137,32 +137,6 @@ var Editor = (function () {
   }
 
   _createClass(Editor, [{
-    key: 'previewMode',
-    get: function () {
-      return this.$previewMode.is(':visible');
-    },
-    set: function (value) {
-      if (value) {
-        this.$editMode.hide();
-        this.$previewMode.show();
-      } else {
-
-        this.$previewMode.hide();
-        this.$editMode.show();
-
-        this.ace = new ace.edit('editor');
-        var mode = ace.require('ace/mode/markdown').Mode;
-        this.ace.getSession().setMode(new mode());
-        this.ace.getSession().setUseWrapMode(true);
-        this.ace.setShowPrintMargin(false);
-        this.ace.setTheme('ace/theme/dillinger');
-        this.ace.renderer.setShowGutter(false);
-        this.ace.setHighlightActiveLine(false);
-        this.ace.setValue(this.text, -1);
-        this.ace.on('change', (function () {}).bind(this));
-      }
-    }
-  }, {
     key: 'load',
     value: function load() {
       this.text = this.app.storage.getItem('text');
@@ -174,58 +148,32 @@ var Editor = (function () {
     value: function save() {
       var _this = this;
 
+      console.log('save');
+
       if (this.previewMode) {
 
         var index = 0;
-        var text = '';
+
+        var html = $('<div />');
 
         this.$previewMode.find('.content > *').each(function (i, e) {
           var $e = $(e);
 
-          switch ($e.get(0).tagName) {
-            case 'H1':
-              text += '#' + $e.text() + '\n\n';
-              break;
-            case 'H2':
-              text += '##' + $e.text() + '\n\n';
-              break;
-            case 'H3':
-              text += '###' + $e.text() + '\n\n';
-              break;
-            case 'H4':
-              text += '####' + $e.text() + '\n\n';
-              break;
-            case 'H5':
-              text += '#####' + $e.text() + '\n\n';
-              break;
-            case 'H6':
-              text += '######' + $e.text() + '\n\n';
-              break;
-            case 'P':
-              text += '' + $e.text() + '\n\n';
-              break;
-            case 'UL':
-              $e.find('li').each(function (ii, el) {
-                text += '* ' + $(el).text() + '\n';
-              });
-              text += '\n';
-              break;
-            case 'DIV':
-
-              if ($e.hasClass('placeholder')) {
-                var gridster = _this.placeholders[index].gridster;
-                var data = gridster.serialize();
-                console.log(data);
-                if (data.length > 0) text += '[PLACEHOLDER-' + _this.placeholders[index].guid + ']\n\n';
-                index++;
+          if ($e.get(0).tagName == 'DIV') {
+            if ($e.hasClass('placeholder')) {
+              var gridster = _this.placeholders[index].gridster;
+              var data = gridster.serialize();
+              if (data.length > 0) {
+                html.append($('<p>[PLACEHOLDER-' + _this.placeholders[index].guid + ']</p>'));
               }
-
-              break;
+              index++;
+            }
+          } else {
+            html.append($e.clone());
           }
-
-          _this.text = text;
         });
 
+        this.text = toMarkdown(html.html());
         this.app.storage.setItem('text', this.text);
       } else {
         this.text = this.ace.getValue();
@@ -293,6 +241,32 @@ var Editor = (function () {
         console.log('render: ' + (end - start));
       }
     }
+  }, {
+    key: 'previewMode',
+    get: function () {
+      return this.$previewMode.is(':visible');
+    },
+    set: function (value) {
+      if (value) {
+        this.$editMode.hide();
+        this.$previewMode.show();
+      } else {
+
+        this.$previewMode.hide();
+        this.$editMode.show();
+
+        this.ace = new ace.edit('editor');
+        var mode = ace.require('ace/mode/markdown').Mode;
+        this.ace.getSession().setMode(new mode());
+        this.ace.getSession().setUseWrapMode(true);
+        this.ace.setShowPrintMargin(false);
+        this.ace.setTheme('ace/theme/dillinger');
+        this.ace.renderer.setShowGutter(false);
+        this.ace.setHighlightActiveLine(false);
+        this.ace.setValue(this.text, -1);
+        this.ace.on('change', (function () {}).bind(this));
+      }
+    }
   }]);
 
   return Editor;
@@ -338,11 +312,6 @@ var Help = (function () {
       this.goto(step);
     }
   }, {
-    key: 'visible',
-    get: function () {
-      return this.$el.is(':visible');
-    }
-  }, {
     key: 'show',
     value: function show() {
       this.$el.show();
@@ -352,6 +321,11 @@ var Help = (function () {
     key: 'hide',
     value: function hide() {
       this.$el.hide();
+    }
+  }, {
+    key: 'visible',
+    get: function () {
+      return this.$el.is(':visible');
     }
   }]);
 
@@ -697,15 +671,6 @@ var Search = (function () {
   }
 
   _createClass(Search, [{
-    key: 'busy',
-    get: function () {
-      return this.state.busy;
-    },
-    set: function (value) {
-      this.state.busy = value;
-      this.input.busy = value;
-    }
-  }, {
     key: 'submit',
     value: function submit(term) {
       var _this = this;
@@ -730,6 +695,15 @@ var Search = (function () {
     key: 'show',
     value: function show() {
       this.input.show();
+    }
+  }, {
+    key: 'busy',
+    get: function () {
+      return this.state.busy;
+    },
+    set: function (value) {
+      this.state.busy = value;
+      this.input.busy = value;
     }
   }]);
 
@@ -771,11 +745,6 @@ var SearchInput = (function () {
   }
 
   _createClass(SearchInput, [{
-    key: 'isValid',
-    get: function () {
-      return this.$text.val().length > 0;
-    }
-  }, {
     key: 'onKeyPress',
     value: function onKeyPress(event) {
 
@@ -788,17 +757,6 @@ var SearchInput = (function () {
       if (this.search.busy || !this.isValid) return;
 
       this.search.submit(this.$text.val());
-    }
-  }, {
-    key: 'busy',
-    set: function (busy) {
-      if (busy) {
-        this.$button.hide();
-        this.$loading.show();
-      } else {
-        this.$loading.hide();
-        this.$button.show();
-      }
     }
   }, {
     key: 'reset',
@@ -814,6 +772,22 @@ var SearchInput = (function () {
     key: 'show',
     value: function show() {
       this.$el.show();
+    }
+  }, {
+    key: 'isValid',
+    get: function () {
+      return this.$text.val().length > 0;
+    }
+  }, {
+    key: 'busy',
+    set: function (busy) {
+      if (busy) {
+        this.$button.hide();
+        this.$loading.show();
+      } else {
+        this.$loading.hide();
+        this.$button.show();
+      }
     }
   }]);
 
