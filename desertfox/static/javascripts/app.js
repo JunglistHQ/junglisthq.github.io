@@ -58,6 +58,8 @@ var App = (function () {
 
       this.$helpButton = this.$el.find('button.button-help');
       this.$helpButton.on('click', this.toggleHelp.bind(this));
+
+      this.help.autoShow();
     }
   }, {
     key: 'cancelEdit',
@@ -174,58 +176,32 @@ var Editor = (function () {
     value: function save() {
       var _this = this;
 
+      console.log('save');
+
       if (this.previewMode) {
 
         var index = 0;
-        var text = '';
+
+        var html = $('<div />');
 
         this.$previewMode.find('.content > *').each(function (i, e) {
           var $e = $(e);
 
-          switch ($e.get(0).tagName) {
-            case 'H1':
-              text += '#' + $e.text() + '\n\n';
-              break;
-            case 'H2':
-              text += '##' + $e.text() + '\n\n';
-              break;
-            case 'H3':
-              text += '###' + $e.text() + '\n\n';
-              break;
-            case 'H4':
-              text += '####' + $e.text() + '\n\n';
-              break;
-            case 'H5':
-              text += '#####' + $e.text() + '\n\n';
-              break;
-            case 'H6':
-              text += '######' + $e.text() + '\n\n';
-              break;
-            case 'P':
-              text += '' + $e.text() + '\n\n';
-              break;
-            case 'UL':
-              $e.find('li').each(function (ii, el) {
-                text += '* ' + $(el).text() + '\n';
-              });
-              text += '\n';
-              break;
-            case 'DIV':
-
-              if ($e.hasClass('placeholder')) {
-                var gridster = _this.placeholders[index].gridster;
-                var data = gridster.serialize();
-                console.log(data);
-                if (data.length > 0) text += '[PLACEHOLDER-' + _this.placeholders[index].guid + ']\n\n';
-                index++;
+          if ($e.get(0).tagName == 'DIV') {
+            if ($e.hasClass('placeholder')) {
+              var gridster = _this.placeholders[index].gridster;
+              var data = gridster.serialize();
+              if (data.length > 0) {
+                html.append($('<p>[PLACEHOLDER-' + _this.placeholders[index].guid + ']</p>'));
               }
-
-              break;
+              index++;
+            }
+          } else {
+            html.append($e.clone());
           }
-
-          _this.text = text;
         });
 
+        this.text = toMarkdown(html.html());
         this.app.storage.setItem('text', this.text);
       } else {
         this.text = this.ace.getValue();
@@ -321,6 +297,7 @@ var Help = (function () {
     this.$steps = this.$el.find('.help-step');
 
     this.$el.find('button').on('click', this.click.bind(this));
+    this.$el.find('i.button-close').on('click', this.hide.bind(this));
   }
 
   _createClass(Help, [{
@@ -329,6 +306,7 @@ var Help = (function () {
       if (step > 0) {
         this.$steps.hide();
         this.$steps[step - 1].style.display = 'block';
+        window.scrollTo(0, 0);
       }
     }
   }, {
@@ -352,6 +330,14 @@ var Help = (function () {
     key: 'hide',
     value: function hide() {
       this.$el.hide();
+    }
+  }, {
+    key: 'autoShow',
+    value: function autoShow() {
+      if (this.app.storage.getItem('first-visit') == null) {
+        this.app.storage.setItem('first-visit', true);
+        this.show();
+      }
     }
   }]);
 
@@ -500,7 +486,7 @@ var Photo = (function () {
     key: 'createNew',
     value: function createNew(id, placeholder) {
       var photo = new Photo(id, placeholder);
-      photo.placeholder.gridster.add_widget(photo.$photo, 1, 1);
+      photo.placeholder.gridster.add_widget(photo.$photo, 2, 2);
 
       new _dataEnvatoJs2['default']().item(photo.id, function (data) {
         $('<img />').attr('src', data.item.live_preview_url).load(function () {
@@ -569,13 +555,13 @@ var PhotoPlaceholder = (function () {
 
       this.gridster = this.$placeholder.find('ul').gridster({
         widget_margins: [5, 5],
-        widget_base_dimensions: [90, 90],
+        widget_base_dimensions: [40, 40],
         autogenerate_stylesheet: false,
-        min_cols: 8,
+        min_cols: 16,
         min_rows: 20,
         resize: {
           enabled: true,
-          max_size: [8, 50],
+          max_size: [16, 50],
           min_size: [1, 1],
           handle_class: 'control-resize',
           stop: function stop() {
@@ -607,7 +593,7 @@ var PhotoPlaceholder = (function () {
       });
 
       if (!window.generated) {
-        this.gridster.generate_stylesheet({ rows: 20, cols: 6 });
+        this.gridster.generate_stylesheet({ rows: 100, cols: 16 });
         window.generated = true;
       }
 
@@ -627,6 +613,8 @@ var PhotoPlaceholder = (function () {
   }, {
     key: 'save',
     value: function save() {
+
+      console.log('save');
 
       var key = 'placeholder-' + this.guid;
       var photos = this.gridster.serialize();
@@ -889,6 +877,7 @@ var SearchResults = (function () {
     key: 'close',
     value: function close() {
       this.$results.hide();
+      this.$resultsNotFound.hide();
       this.search.input.reset();
       $('.placeholder ul').removeClass('edit');
       $('main.editor').removeClass('search-results-active');

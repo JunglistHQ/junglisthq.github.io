@@ -2,8 +2,12 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="description" value="Desert Fox is a tool that can help you find beautiful photos for your blog post or web site and give you an instant preview of how they would look within your text.">
     <title>Desert Fox</title>
     <link rel="stylesheet" type="text/css" href="static/stylesheets/main.css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="static/components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="static/components/gridster/dist/jquery.gridster.min.css">
     <link rel="icon" type="image/png" href="static/images/favicon-16x16.png" sizes="16x16" />
@@ -51,7 +55,6 @@
     <section id="search-results-not-found" class="search-results not-found">
         <div class="container">
             <p>No matching photos found. Please modify your search criteria and try searching again.</p>
-            <button class="close"><i class="fa fa-remove"></i></button>
         </div>
     </section>
 
@@ -63,10 +66,112 @@
         <div class="container">
             <div class="content">
                 <div class="help-step help-step-1">
-                    <h1>Hello</h1>
+
+                    <h1>About</h1>
+                    <i class="button-close fa fa-close"></i>
+
                     <p>
-                        Not done yet
+                        They say that a picture is worth a thousand words. It's definitely true. A picture can
+                        breathe life into your blog post or web page. Not only can it speak to your readers, but
+                        it can grab their attention and within seconds – tell them what you blog is about.
                     </p>
+
+                    <p>
+                        <strong>Desert Fox</strong> is a tool that can help you find beautiful photos for your blog post or web
+                        site and give you an instant preview of how they would look within your text.
+                    </p>
+
+                    <p>If you have any issues, want to suggest how to improve this tool or just want to
+                        say hi – drop an email to <a href="mailto:&#115;&#105;&#109;&#111;&#110;&#064;&#098;&#111;&#097;&#116;&#115;&#098;&#097;&#121;&#046;&#099;&#111;&#109;">&#115;&#105;&#109;&#111;&#110;&#064;&#098;&#111;&#097;&#116;&#115;&#098;&#097;&#121;&#046;&#099;&#111;&#109;</a>
+                    </p>
+
+                    <div class="controls">
+                        <button class="button button-next" data-goto-step="2">Start the tutorial</button>
+                    </div>
+                </div>
+                <div class="help-step help-step-2">
+
+                    <h1>The Editor</h1>
+                    <i class="button-close fa fa-close"></i>
+
+                    <p>
+                        Click Edit Text and you are looking at fully functional Markdown editor.
+                        If you're not familiar with Markdown yet, you can read it more about it
+                        <a href="http://readwrite.com/2012/04/17/why-you-need-to-learn-markdown" target="_blank">here</a>
+                    </p>
+
+                    <p class="demo">
+                        <img src="static/images/help/editor.gif">
+                    </p>
+
+                    <p>
+                        You can paste text from your blog or write it from scratch here. After you’re done editing your
+                        text, click the save button and your writing will be saved to your browser's web storage and
+                        will not be lost after you close the browser.
+                    </p>
+
+                    <div class="controls">
+                        <button class="button button-previous button-light" data-goto-step="1">Back</button>
+                        <span>1 or 3</span>
+                        <button class="button button-next" data-goto-step="3">Next</button>
+                    </div>
+                </div>
+                <div class="help-step help-step-3">
+
+                    <h1>The Search</h1>
+                    <i class="button-close fa fa-close"></i>
+
+                    <p>
+                        Just type what you would like to find into the search box above and press enter.
+                        Your search results will be presented to you as a list of photos.
+                    </p>
+
+                    <p class="demo">
+                        <img src="static/images/help/search.gif">
+                    </p>
+
+                    <p>
+                        Also after every paragraphs of your text little dashed outlines will appear.
+                        That's where you will be able to drop your photos. But more about it in the next step.
+                    </p>
+
+                    <div class="controls">
+                        <button class="button button-previous button-light" data-goto-step="2">Back</button>
+                        <span>2 or 3</span>
+                        <button class="button button-next" data-goto-step="4">Next</button>
+                    </div>
+                </div>
+                <div class="help-step help-step-4">
+
+                    <h1>The Layout</h1>
+                    <i class="button-close fa fa-close"></i>
+
+                    <p>
+                        You can drag & drop with a mouse any photo from search results to dashed outlines between
+                        paragraphs.
+                    </p>
+
+                    <p class="demo">
+                        <img src="static/images/help/layout.gif">
+                    </p>
+
+                    <p>
+                        After the photo is dropped you can move it around within it's own placeholder, resize or remove
+                        it if you don't like it anymore. You can also do the same with any photos you had added any time
+                        before.
+                    </p>
+
+                    <p>
+                        When you are happy with the result and you would like to use these photos for your actual
+                        blog post, go one by one through all of them, clicking the icon on the left upper corner of
+                        the photo to navigate directly to <a href="http://photodunet.net" target="_blank">photodunet.net</a>
+                        where the purchase can be made.
+                    </p>
+
+                    <div class="controls">
+                        <button class="button button-previous button-light" data-goto-step="3">Back</button>
+                        <span>3 or 3</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,6 +199,7 @@
 <script type="text/javascript" src="static/components/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="static/components/sly/dist/sly.min.js"></script>
 <script type="text/javascript" src="static/components/marked/marked.min.js"></script>
+<script type="text/javascript" src="static/components/to-markdown/dist/to-markdown.js"></script>
 <script type="text/javascript" src="static/components/ace-builds/src-min/ace.js"></script>
 <script type="text/javascript" src="static/components/ace-builds/src-min/mode-markdown.js"></script>
 <script type="text/javascript" src="static/components/ace-builds/src-min/theme-monokai.js"></script>
