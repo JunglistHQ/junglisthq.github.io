@@ -48,6 +48,5 @@
   },
   "_source": "git://github.com/lykmapipo/themify-icons.git",
   "_target": "~0.1.0",
-  "_originalSource": "themify-icons",
-  "_direct": true
+  "_originalSource": "themify-icons"
 }
